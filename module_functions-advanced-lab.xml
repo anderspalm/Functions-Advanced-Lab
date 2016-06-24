@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_functions-advanced-lab" default="compile.module.functions-advanced-lab">
+  <dirname property="module.functions-advanced-lab.basedir" file="${ant.file.module_functions-advanced-lab}"/>
+  
+  <property name="module.jdk.home.functions-advanced-lab" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.functions-advanced-lab" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.functions-advanced-lab" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.functions-advanced-lab" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="functions-advanced-lab.output.dir" value="${module.functions-advanced-lab.basedir}/out/production/Functions-Advanced-Lab"/>
+  <property name="functions-advanced-lab.testoutput.dir" value="${module.functions-advanced-lab.basedir}/out/test/Functions-Advanced-Lab"/>
+  
+  <path id="functions-advanced-lab.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="functions-advanced-lab.module.production.classpath">
+    <path refid="${module.jdk.classpath.functions-advanced-lab}"/>
+  </path>
+  
+  <path id="functions-advanced-lab.runtime.production.module.classpath">
+    <pathelement location="${functions-advanced-lab.output.dir}"/>
+  </path>
+  
+  <path id="functions-advanced-lab.module.classpath">
+    <path refid="${module.jdk.classpath.functions-advanced-lab}"/>
+    <pathelement location="${functions-advanced-lab.output.dir}"/>
+  </path>
+  
+  <path id="functions-advanced-lab.runtime.module.classpath">
+    <pathelement location="${functions-advanced-lab.testoutput.dir}"/>
+    <pathelement location="${functions-advanced-lab.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.functions-advanced-lab">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.functions-advanced-lab">
+    <patternset refid="excluded.from.module.functions-advanced-lab"/>
+  </patternset>
+  
+  <path id="functions-advanced-lab.module.sourcepath">
+    <dirset dir="${module.functions-advanced-lab.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.functions-advanced-lab" depends="compile.module.functions-advanced-lab.production,compile.module.functions-advanced-lab.tests" description="Compile module Functions-Advanced-Lab"/>
+  
+  <target name="compile.module.functions-advanced-lab.production" depends="register.custom.compilers" description="Compile module Functions-Advanced-Lab; production classes">
+    <mkdir dir="${functions-advanced-lab.output.dir}"/>
+    <javac2 destdir="${functions-advanced-lab.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.functions-advanced-lab}/javac">
+      <compilerarg line="${compiler.args.functions-advanced-lab}"/>
+      <bootclasspath refid="functions-advanced-lab.module.bootclasspath"/>
+      <classpath refid="functions-advanced-lab.module.production.classpath"/>
+      <src refid="functions-advanced-lab.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.functions-advanced-lab"/>
+    </javac2>
+    
+    <copy todir="${functions-advanced-lab.output.dir}">
+      <fileset dir="${module.functions-advanced-lab.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.functions-advanced-lab.tests" depends="register.custom.compilers,compile.module.functions-advanced-lab.production" description="compile module Functions-Advanced-Lab; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.functions-advanced-lab" description="cleanup module">
+    <delete dir="${functions-advanced-lab.output.dir}"/>
+    <delete dir="${functions-advanced-lab.testoutput.dir}"/>
+  </target>
+</project>
